@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>家的價值！？臺北市居住環境地圖</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- css loading-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/structure.css">
+    <link rel="stylesheet" href="css/content.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+    <!-- javascript loading -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+    <!-- data parser-->
+    <script src="js/layerControl.js"></script>
+    <script src="js/dataParse.js"></script>
+    <script src="js/dataTreatment.js"></script>
+    <script src="js/structure.js"></script>
+    <script src="js/data.js"></script>
+    <!-- cluster plugin -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.0/dist/MarkerCluster.Default.css">
+    <script src="https://unpkg.com/leaflet.markercluster@1.0.0/dist/leaflet.markercluster.js"></script>
+    <!--google api-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAi0uoD0kZrlaG2GthIRTe1ljUhus0Zabg"></script>
+    <!-- vector tile function -->
+    <script src="http://www.sumbera.com/gist/js/vt/geojson-vt-dev.js"></script>
+    <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.js"></script>
+    <!-- turf.js(buffer use) -->
+    <script src="https://npmcdn.com/@turf/turf@3.12.2/turf.min.js"></script>
+    <!-- choropleth map -->
+    <script src="js/choropleth.js"></script>
+    <!-- heat map -->
+    <script src="js/leaflet-heat.js"></script>
+    <!-- jquery ui -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!-- main -->
+    <script src="js/main.js"></script>
+    <!-- button ui -->
+    <script src="js/bootstrap-checkbox.min.js"></script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="50" onload="location.href='#banner'">
+    <div id="firstlayer">
+        <header id="banner" class="container-fluid">
+            <div id="bannerContent" class="container-fluid">
+                <div id="bannerIMG" class="container-fluid">
+                    <h1 id="buttomBanner"></h1>
+                </div>
+            </div>
+        </header>
+        <div id="bannerMap" style="width:100%;height:100vh;z-index:1;position:fixed;bottom:0;right:0"></div>
+        <nav style="height:55px;position:absolute;width:100%;z-index:9997"></nav>
+        <nav id="bannerswipe" class="navbar navbar-inverse navbar-toggleable-md" data-spy="affix" data-offset-top="70vh">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a id="nav_name" class="navbar-brand" href=""><img id="nav_icon" src="images/layer.png" style="width:25px;height:25px;"></a>
+                </div>
+                <div class="collapse navbar-collapse" id="myNavbar">
+                    <ul id="linkbar" class="nav navbar-nav">
+                        <li id="home" class="active" onclick="navDestroy(leafmap)"><a href="#banner">Home</a></li>
+                        <li onclick="navDestroy(leafmap,1)"><a href="#section1">居住環境概述</a></li>
+                        <li onclick="navDestroy(leafmap,2)"><a href="#section2">安全性</a></li>
+                        <li onclick="navDestroy(leafmap,3)"><a href="#section3">健康性</a></li>
+                        <li onclick="navDestroy(leafmap,4)"><a href="#section4">寧適性</a></li>
+                        <li onclick="navDestroy(leafmap,5)"><a href="#section5">便利性</a></li>
+                        <li onclick="navDestroy(leafmap,6)"><a href="#section6">全部圖層</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li id="set_house_li" style="display: none">
+                            <a><input id="set_house_map" class="setting-btn" type="checkbox" data-toggle="toggle" data-size="mini" onchange="switchDomLayer(leafmap,estate)">房價資訊</a>
+                        </li>
+                        <li>
+                            <a><input id="set_control_map" class="setting-btn" type="checkbox" data-toggle="toggle" data-onstyle="danger" data-size="mini" onchange="switchMapControl()">操控地圖</a>
+                        </li>
+                        <li id="set_base_map" style="visibility: hidden" class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-wrench"></span>底圖</a>
+                            <ul class="dropdown-menu" style="padding-left:5px">
+                                <label><input name="baseOption" class="setting-btn" type="radio" value="mapbox.satellite" onchange="changeAMStyle('#E6E6E6')">衛星影像</label><br>
+                                <label><input name="baseOption" class="setting-btn" type="radio" value="mapbox.streets" onchange="changeAMStyle('#4D4D4D')">街道地圖</label><br>
+                                <label><input name="baseOption" class="setting-btn" type="radio" value="mapbox.streets-satellite" onchange="changeAMStyle('#E6E6E6')">街道衛星</label><br>
+                                <label><input name="baseOption" class="setting-btn" type="radio" value="mapbox.run-bike-hike" onchange="changeAMStyle('#4D4D4D')">綠地景觀</label><br>
+                                <label><input name="baseOption" class="setting-btn" type="radio" value="mapbox.dark" onchange="changeAMStyle('#E6E6E6')">黑底底圖</label><br>
+                                <label><input name="baseOption" class="setting-btn" type="radio" value="mapbox.light" checked="checked" onchange="changeAMStyle('#4D4D4D')">白底底圖</label>
+                                <hr>
+                                <h4>輔助圖資</h4>
+                                <label><input id="set_ad_map_district" type="checkbox" class="setting-btn" type="checkbox" data-toggle="toggle" data-size="mini" onchange="AuxiliaryMapControl('set_ad_map_district',leafmap, district)">區界圖</label><br>
+                                <label><input id="set_ad_map_town" type="checkbox" class="setting-btn" type="checkbox" data-toggle="toggle" data-size="mini" onchange="AuxiliaryMapControl('set_ad_map_town',leafmap, town)">里界圖</label>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <section id="section1" class="container-fluid">
+            <div class="container" style="width:95%;height:7%;"></div>
+            <div class="container" style="width:95%;height:48%;">
+                <div class="col-sm">
+                    <h1 class="body-text">居住環境概述</h1>
+                    <h2 class="body-text">&nbsp;<br>&nbsp;</h2>
+                    <h4 class="body-text">在房價高漲的年代<br>你願意花一坪100萬的價格住在噪音環境內嗎？</h4>
+                    <h4 class="body-text">早在1961年<br>聯合國世界衛生組織對於居住環境有四個面向的定義<br>往後許多研究也從這幾個面向作為出發點，發展出各種評估指標<br></h4>
+                    <h4 class="body-text">本地圖將使用這四個面向相關圖層作呈現：</h4>
+                </div>
+            </div>
+            <div class="container" style="width:95%;height:45%">
+                <div class="col-xs-3 text-center se1" onmouseon="this.classList.toggle('hover');">
+                    <div class="section1option" onclick="navDestroy(leafmap,2)">
+                        <a href="#section2">
+                            <img src="images/optionicon/%E5%AE%89%E5%85%A8%E6%80%A7_text.png" class="img-circle front" alt="Random Name" style="background-color: rgba(157, 52, 59, 0.7)" />
+                            <img src="images/optionicon/安全性.png" class="img-circle back" alt="Random Name" />
+                        </a>
+                    </div>
+                    <h4 class="body-text"><br>以生命財產作為對象，提供居民安全感</h4>
+                </div>
+                <div class="col-xs-3 text-center se1" onmouseon="this.classList.toggle('hover');">
+                    <div class="section1option" onclick="navDestroy(leafmap,3)">
+                        <a href="#section3">
+                            <img src="images/optionicon/健康性_text.png" class="img-circle front" alt="Random Name" style="background-color: rgba(115, 134, 45, 0.7);" />
+                            <img src="images/optionicon/健康性.png" class="img-circle back" alt="Random Name" />
+                        </a>
+                    </div>
+                    <h4 class="body-text"><br>公害與其產生設施，與醫療設施之普及</h4>
+                </div>
+                <div class="col-xs-3 text-center se1" onmouseon="this.classList.toggle('hover');">
+                    <div class="section1option" onclick="navDestroy(leafmap,4)">
+                        <a href="#section4">
+                            <img src="images/optionicon/寧適性_text.png" class="img-circle front" alt="Random Name" style="background-color: rgba(94, 164, 201, 0.7);" />
+                            <img src="images/optionicon/寧適性.png" class="img-circle back" alt="Random Name" />
+                        </a>
+                    </div>
+                    <h4 class="body-text"><br>提升居民心理及生理上之環境舒適度</h4>
+                </div>
+                <div class="col-xs-3 text-center se1" onmouseon="this.classList.toggle('hover');">
+                    <div class="section1option" onclick="navDestroy(leafmap,5)">
+                        <a href="#section5">
+                            <img src="images/optionicon/便利性_text.png" class="img-circle front" alt="Random Name" style="background-color: rgba(34, 33, 99, 0.7);" />
+                            <img src="images/optionicon/便利性.png" class="img-circle back" alt="Random Name" />
+                        </a>
+                    </div>
+                    <h4 class="body-text"><br>大眾運輸與公設等可接近性</h4>
+                </div>
+            </div>
+        </section>
+        <section id="section2" class="container-fluid">
+            <div id="se2_wp" class="mywrapper">
+                <div id="se2_wp_sl" class="sidebar-wrapper toggled">
+                    <ul class="sidebar-nav">
+                        <li class="sidebar-brand" id="safety">
+                            <a herf="#">Data list</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="page-content-wrapper" style="margin-left: 0px;height:100vh;width:30%;background-color: rgba(157, 52, 59, 0.7);">
+                    <h1 class="body-text"><br>安全性</h1>
+                    <h3 class="body-text">&nbsp;<br>以生命財產及生活為對象，使之免於恐懼中。<br><br>其中可以分成兩個因素如下：<br>人為因素<br>舉例：治安好壞、交通安全、火災發生等<br>自然因素<br>舉例：風災淹水、斷層帶、土壤液化潛勢等<br><br>圖層資料（人為）：<br>臺北市住宅竊盜點位資訊<br>臺北市汽車竊盜點位資訊<br>臺北市事故點位座標<br>圖層資料（自然）：<br>臺北市歷年積水紀錄圖<br>臺北市土壤液化潛勢圖</h3>
+                </div>
+            </div>
+        </section>
+        <section id="section3" class="container-fluid">
+            <div id="se3_wp" class="mywrapper">
+                <div id="se3_wp_sl" class="sidebar-wrapper toggled">
+                    <ul class="sidebar-nav">
+                        <li class="sidebar-brand" id="health">
+                            <a herf="#">Data list</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="container" style="margin-left: 0px;height:100vh;width:30%;background-color: rgba(115, 134, 45, 0.7);">
+                    <h1 class="body-text">&nbsp;<br><br>健康性</h1>
+                    <h3 class="body-text">&nbsp;<br>健康乃人類幸福之根源，健康的居住環境應避免過大的噪音、空氣汙染等公害，並使醫療設施普及、預防傳染疾病發生。<br><br>*鄰避設施所涉及的層面可能包含健康性與寧適性，當鄰避設施實質上影響生理層面，屬於健康性的範疇。<br><br>圖層資料：<br>公害陳情案件分佈位置圖<br>臺北市公私立醫療院所<br>臺北市加油站及加氣站分布（*鄰避設施）</h3>
+                </div>
+            </div>
+        </section>
+        <section id="section4" class="container-fluid">
+            <div id="se4_wp" class="mywrapper">
+                <div id="se4_wp_sl" class="sidebar-wrapper toggled">
+                    <ul class="sidebar-nav">
+                        <li class="sidebar-brand" id="amenity">
+                            <a herf="#">Data list</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="container" style="margin-left: 0px;height:100vh;width:30%;background-color: rgba(94, 164, 201, 0.7);">
+                    <h1 class="body-text">&nbsp;<br><br>寧適性</h1>
+                    <h3 class="body-text">&nbsp;<br>又稱為舒適性<br>提供心理與生理上能產生愉悅、舒適的感覺，也包括居民的素質、鄰里關係及社經條件。<br><br>*鄰避設施所涉及的層面可能包含健康性與寧適性，當鄰避設施實質上影響心理層面，屬於寧適性的範疇。<br><br>圖層資料：<br>臺北市各級學校分布圖<br>臺北市公園分布圖<br>臺北市各村里人口數<br>臺北市各村里所得</h3>
+                </div>
+            </div>
+        </section>
+        <section id="section5" class="container-fluid">
+            <div id="se5_wp" class="mywrapper">
+                <div id="se5_wp_sl" class="sidebar-wrapper toggled">
+                    <ul class="sidebar-nav">
+                        <li class="sidebar-brand" id="convenience">
+                            <a herf="#">Data list</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="container" style="margin-left: 0px;height:100vh;width:30%;background-color: rgba(34, 33, 99, 0.7);">
+                    <h1 class="body-text">&nbsp;<br><br>便利性</h1>
+                    <h3 class="body-text">&nbsp;<br>主要可分為交通上的便利性與公設、民生必需的易達性。除了設施分布，節點間的傳輸效益也常成為探討指標<br><br>本網頁暫時以站位節點作為呈現，運輸離尖峰的統計量不在這次呈現的範圍中。<br><br>圖層資料：<br>大眾捷運系統車站點位圖<br>大眾捷運系統路網圖<br>公共自行車即時資訊</h3>
+                </div>
+            </div>
+        </section>
+        <section id="section6" class="container-fluid">
+            <div id="se6_wp" class="mywrapper">
+                <div id="se6_wp_sl" class="sidebar-wrapper toggled">
+                    <ul class="sidebar-nav">
+                        <li class="sidebar-brand" id="all">
+                            <a herf="#">Data list</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="container" style="margin-left: 0px;height:18vh;width:30%;background: linear-gradient(rgba(34, 33, 99, 0.7), rgba(255, 255, 255, 0));visibility:visible">
+                    <h1 class="body-text">&nbsp;<br>Map Area</h1>
+                </div>
+            </div>
+            <div id="googleMap" style="width:100%;height:100vh;z-index:0;position:fixed;bottom:0;right:0">
+            </div>
+        </section>
+    </div>
+
+    <script type="text/javascript">
+        //        $(document).ready(function() {
+        //            $(this).scrollTop(0);
+        //        });
+        $("#nav_name").click(function(e) {
+            e.preventDefault();
+            $(".mywrapper").toggleClass("toggled");
+        });
+        var initpoint = [25.04, 121.55];
+        if (navigator.geolocation != undefined) {
+            navigator.geolocation.getCurrentPosition(getPosition);
+        } else {
+            initpoint = [25.04, 121.55];
+        };
+
+        function getPosition(position) {
+            initpoint = L.latLng(parseFloat(position.coords.latitude), parseFloat(position.coords.longitude));
+        };
+
+        var bannermap = L.map('bannerMap', {
+            zoomControl: false,
+            preferCanvas: true
+        }).setView([25.08, 121.44], 13);
+        bannerAct(bannermap);
+
+        var leafmap = L.map('googleMap', {
+            zoomControl: false,
+            preferCanvas: true
+        }).setView(initpoint, 13);
+        var mainlayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoieW9yazIwODMwIiwiYSI6ImNpeHZibm04dDAwOGMyd21uaGhwdmxuOTIifQ.3wGIIULGKcpxJYY_p9ihow', {
+            maxZoom: 18,
+            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+            id: 'mapbox.light'
+        }).addTo(leafmap);
+
+
+        $("input[name=baseOption]").click(function() {
+            removeLayer(leafmap, mainlayer);
+            mainlayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoieW9yazIwODMwIiwiYSI6ImNpeHZibm04dDAwOGMyd21uaGhwdmxuOTIifQ.3wGIIULGKcpxJYY_p9ihow', {
+                maxZoom: 18,
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                id: $('input[name=baseOption]:checked').val()
+            }).addTo(leafmap);
+        });
+        var info = L.control();
+        info.onAdd = function(map) {
+            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+            this.update();
+            return this._div;
+        };
+        info.update = function(props, data) {
+            this._div.innerHTML = (props ? '<h2>&nbsp;<br>' + data.name + '</h2>' : '') + (props ? '<h3>' + data.info_column + '</h3>' + '<h3>' + props[data.infovalue] + data.infounit + '</h3><br/>' : '');
+        };
+
+        info.addTo(leafmap);
+        L.control.scale({
+            position: 'bottomright',
+            imperial: false
+        }).addTo(leafmap);
+
+        loadDataList3("datas/datalist.csv", 'safety');
+        loadDataList3("datas/datalist.csv", 'health');
+        loadDataList3("datas/datalist.csv", 'amenity');
+        loadDataList3("datas/datalist.csv", 'convenience');
+        loadDataList3("datas/datalist.csv", 'all');
+        $(".locked").click(function() {
+            return false;
+        });
+
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-99076164-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+</body>
+
+</html>

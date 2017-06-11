@@ -1,0 +1,148 @@
+@media (max-height: 675px),
+(max-width: 1200px) {
+    .body-text {
+        font-size: 170%;
+    }
+    .img-circle {
+        width: 60%;
+        height: 60%;
+    }
+    .front {
+        height: 100%;
+    }
+    h4 {
+        font-size: 80%;
+    }
+}
+
+@media(max-height: 558px),
+(max-width: 992px) {
+    .body-text {
+        font-size: 150%;
+    }
+    .layerbtnlist {
+        font-size: 90%;
+    }
+    h4 {
+        font-size: 60%;
+    }
+}
+
+@media(max-height: 432px),
+(max-width: 768px) {
+    .body-text {
+        font-size: 120%;
+    }
+    .layerbtnlist {
+        font-size: 70%;
+    }
+}
+
+@media(max-height: 324px),
+(max-width: 576px) {
+    .body-text {
+        font-size: 100%;
+    }
+    .layerbtnlist {
+        font-size: 50%;
+    }
+    .se1 {
+
+    }
+    h4 {
+        display: none;
+    }
+}
+
+	
+
+@media (max-width: 915px) {
+  .navbar-header {
+      float: none;
+  }
+  .navbar-left,.navbar-right {
+      float: none !important;
+  }
+  .navbar-toggle {
+      display: block;
+  }
+  .navbar-collapse {
+      border-top: 1px solid transparent;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+  }
+  .navbar-fixed-top {
+      top: 0;
+      border-width: 0 0 1px;
+  }
+  .navbar-collapse.collapse {
+      display: none!important;
+  }
+  .navbar-nav {
+      float: none!important;
+      margin-top: 7.5px;
+  }
+  .navbar-nav>li {
+      float: none;
+  }
+  .navbar-nav>li>a {
+      padding-top: 10px;
+      padding-bottom: 10px;
+  }
+  .collapse.in{
+      display:block !important;
+  }
+}
+
+body {
+    font-family: '微軟正黑體';
+}
+
+#bannerText {
+    font-size: 700%;
+}
+
+#buttomBanner {
+    float: right;
+    font-size: 400%;
+    bottom: 0px;
+}
+
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    font-family: '微軟正黑體';
+    color: black;
+    background: white;
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.legend {
+    color: black;
+    line-height: 18px;
+    background-color: 'white';
+}
+
+.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+@-webkit-keyframes twinkling{	
+	0%{
+		opacity:0.6;				
+	}
+	100%{
+		opacity:1;		
+	}
+}
+ 
+

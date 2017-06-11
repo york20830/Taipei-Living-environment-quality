@@ -1,0 +1,113 @@
+    #myMenuBar li {
+        display: inline-block;
+        margin: 10px;
+        color: #000;
+        background: #fff;
+        background: rgba(255, 255, 255, 0.5);
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        float: right;
+    }
+    
+    #myMenuBar li.active {
+        background: #666;
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        float: right;
+    }
+    
+    #myMenuBar li a {
+        text-decoration: none;
+        color: #000;
+    }
+    
+    #myMenuBar li.active a:hover {
+        color: #000;
+    }
+    
+    #myMenuBar li:hover {
+        background: rgba(255, 255, 255, 0.8);
+    }
+    
+    #myMenuBar li a,
+    #myMenuBar li.active a {
+        padding: 9px 20px;
+    }
+    
+    #myMenuBar li.active a {
+        color: #fff;
+    }
+    
+    #myMenuBar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 0px;
+        z-index: 70;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        font-family: 微軟正黑體;
+        font-size: 40px;
+    }
+    
+    div.section {
+        padding-left: 60px;
+        padding-right: 60px;
+    }
+    
+    #googleMap {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        z-index: 0;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+    
+    #fullpage {
+        z-index: 20;
+        position: absolute;
+    }
+    
+    #section1 {
+        background-color: black;
+        opacity: 0.3;
+    }
+    
+    #section2 {
+        background-color: black;
+        opacity: 0.2
+    }
+    
+    #section3 {
+        background-color: blueviolet;
+        opacity: 0.7;
+    }
+    
+    #NavbarSection2 {
+        line-height: 30px;
+        background-color: aliceblue;
+        height: 100%;
+        width: 140px;
+        position: absolute;
+        float: left;
+        padding: 5px;
+        top: 0px;
+        left: 0px;
+        z-index: 2;
+        font-size: 25px;
+        font-family: 微軟正黑體;
+        color: white;
+    }
+    
+    #demoslide2 {
+        background-color: aqua;
+    }
+    
+    #demotestnav {
+        position: relative;
+        top: 50px;
+    }
