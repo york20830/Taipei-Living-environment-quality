@@ -58,7 +58,7 @@ var salary = new eachLayer("data/Taipei_salary.json");
 var bus_stop = new eachLayer("data/Taipei_busstop.json");
 var mrt_stop = new eachLayer("data/Taipei_MRTstation.json");
 var mrt_route = new eachLayer("data/Taipei_MRTroute.json");
-var youbike = new eachLayer("http://ptx.transportdata.tw/MOTC/v2/Bike/Station/Taipei?$format=json");
+var youbike = new eachLayer("https://ptx.transportdata.tw/MOTC/v2/Bike/Station/Taipei?$format=json");
 var estate = new eachLayer("data/Taipei_estate_Atype_lite.json");
 var district = new eachLayer("data/Taipei_district.json");
 var town = new eachLayer("data/Taipei_town.json");
@@ -284,7 +284,7 @@ function mycolor(data, column_name, style) {
 //only youbike
 function myyoubike(data, column_name, style) {
     var location = L.layerGroup();
-    var real = loadJson("http://ptx.transportdata.tw/MOTC/v2/Bike/Availability/Taipei?$format=json");
+    var real = loadJson("https://ptx.transportdata.tw/MOTC/v2/Bike/Availability/Taipei?$format=json");
     console.log(real);
     var icon = L.icon({
         iconUrl: 'images/bike.png',
