@@ -64,21 +64,21 @@ var district = new eachLayer("data/Taipei_district.json");
 var town = new eachLayer("data/Taipei_town.json");
 
 soil_liq.layer = new L.LayerGroup();
-var url_Low = L.geoJSON(loadJson('http://www.geologycloud.tw/data/zh-tw/liquefaction?area=%E8%87%BA%E5%8C%97&classify=%E4%BD%8E%E6%BD%9B%E5%8B%A2&all=true'), {
+var url_Low = L.geoJSON(loadJson('data/liquefaction_low.json'), {
     style: {
         weight: 0,
         fillColor: 'green',
         fillOpacity: 0.5
     }
 }).addTo(soil_liq.layer);
-var url_Medium = L.geoJSON(loadJson('http://www.geologycloud.tw/data/zh-tw/liquefaction?area=%E8%87%BA%E5%8C%97&classify=%E4%B8%AD%E6%BD%9B%E5%8B%A2&all=true'), {
+var url_Medium = L.geoJSON(loadJson('data/liquefaction_mid.json'), {
     style: {
         weight: 0,
         fillColor: 'yellow',
         fillOpacity: 0.5
     }
 }).addTo(soil_liq.layer);
-var url_High = L.geoJSON(loadJson('http://www.geologycloud.tw/data/zh-tw/liquefaction?area=%E8%87%BA%E5%8C%97&classify=%E9%AB%98%E6%BD%9B%E5%8B%A2&all=true'), {
+var url_High = L.geoJSON(loadJson('data/liquefaction_high.json'), {
     style: {
         weight: 0,
         fillColor: 'red',
