@@ -163,7 +163,7 @@ function DataList() {
             cells = rows[i].split("\t");
             html += '<li style="font-size:15px;background-color:yellow"><a onclick="GenerateTable()">' + cells[0] + '</a></li>';
         };
-        console.log(html);
+        //console.log(html);
         document.getElementById("04list").innerHTML = html;
     });
 };
@@ -181,7 +181,7 @@ function loadDataList(urlname, num) {
         var html = "";
 
         for (var key in data) {
-            console.log(data[key]['使用圖層']);
+            //console.log(data[key]['使用圖層']);
             if (data[key]['最終使用'] == 1) {
                 html += '<li style="font-size:15px;background-color:black"><a  onclick="addLayer(leafmap,' + data[key]['程式資料命名'] + '.choropleth)" ondblclick="removeLayer(leafmap,' + data[key]['程式資料命名'] + '.choropleth)">' + data[key]['使用圖層'] + '</a></li>';
             };
@@ -283,7 +283,7 @@ function loadDataList3(urlname, divid) {
                 op = 'all'
         };
         for (var key in data) {
-            console.log(op);
+            //console.log(op);
             if (data[key]['最終使用'] == 1 && (op == data[key]['使用分類'])) {
                 html += '<li class="layerbtnlist"><a class="toggle-custom" id="' + data[key]['ID'] + '" data-toggle="collapse" data-target="#' + data[key]['ID'] + '_' + data[key]['程式資料命名'] + '" aria-expanded="false"  style="display:-webkit-inline-box"><input class="layer-btn" type="checkbox" id="' + data[key]['ID'] + '_' + data[key]['程式資料命名'] + '_checkbox' + '" onchange="boxControl(' + data[key]['ID'] + ',leafmap,' + data[key]['程式資料命名'] + ",'" + data[key]['程式資料命名'] + "'" + ')" data-toggle="toggle" data-size="small"><div class="locked container" style="padding:0px;margin:0px;width: 100%">' + data[key]['使用圖層(簡化)'] + '</div></a>' + '<ul class="nav collapse" id="' + data[key]['ID'] + '_' + data[key]['程式資料命名'] + '" role="menu" aria-labelledby="' + data[key]['ID'] + '">';
                 switch (data[key]['呈現方法1']) {

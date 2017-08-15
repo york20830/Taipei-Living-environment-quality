@@ -40,6 +40,10 @@ body {
     padding-top: 50px;
 }
 
+section {
+    text-shadow: black 0.1em 0.1em 0.2em;
+}
+
 #section1 {
     position: relative;
     padding: 0px;
@@ -47,10 +51,10 @@ body {
     z-index: 9998;
     color: #fff;
     background-color: rgba(31, 137, 229, 0.2);
-    background: -webkit-linear-gradient(rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 1));
-    background: -o-linear-gradient(rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 1));
-    background: -moz-linear-gradient(rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 1));
-    background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 1));
+    background: -webkit-linear-gradient(rgba(255, 255, 255, 0.3), rgba(150, 200, 20, 1));
+    background: -o-linear-gradient(rgba(255, 255, 255, 0.3), rgba(150, 200, 20, 1));
+    background: -moz-linear-gradient(rgba(255, 255, 255, 0.3), rgba(150, 200, 20, 1));
+    background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(150, 200, 20, 1));
 }
 
 #section2 {
@@ -107,12 +111,12 @@ body {
 
 #banner {
     z-index: 9999;
-/*
+    /*
     background-image: url("./images/banner4.jpg");
     background-repeat: no-repeat;
     background-color:#F44336;
 */
-    color:#fff;
+    color: #fff;
     opacity: 0.9;
     background-size: 100% 200%;
     background-position: 50% 30%;
@@ -271,7 +275,7 @@ body {
 
 .sidebar-nav li {
     padding-left: 10px;
-/*    text-indent: 20px;*/
+    /*    text-indent: 20px;*/
     line-height: 40px;
 }
 
@@ -343,7 +347,6 @@ body {
     background: -moz-linear-gradient(rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 1));
     background: linear-gradient(right, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 1));
 }
-
 
 #bannerIMG {
     background-image: url("./images/banner_text.png");

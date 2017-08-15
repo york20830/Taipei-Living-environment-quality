@@ -58,12 +58,15 @@ var salary = new eachLayer("data/Taipei_salary.json");
 var bus_stop = new eachLayer("data/Taipei_busstop.json");
 var mrt_stop = new eachLayer("data/Taipei_MRTstation.json");
 var mrt_route = new eachLayer("data/Taipei_MRTroute.json");
-var youbike = new eachLayer("https://ptx.transportdata.tw/MOTC/v2/Bike/Station/Taipei?$format=json");
+var youbike = new eachLayer("http://ptx.transportdata.tw/MOTC/v2/Bike/Station/Taipei?$format=json");
 var estate = new eachLayer("data/Taipei_estate_Atype_lite.json");
 var district = new eachLayer("data/Taipei_district.json");
 var town = new eachLayer("data/Taipei_town.json");
 
 soil_liq.layer = new L.LayerGroup();
+//'http://www.geologycloud.tw/data/zh-tw/liquefaction?area=%E8%87%BA%E5%8C%97&classify=%E4%BD%8E%E6%BD%9B%E5%8B%A2&all=true'
+//'http://www.geologycloud.tw/data/zh-tw/liquefaction?area=%E8%87%BA%E5%8C%97&classify=%E4%B8%AD%E6%BD%9B%E5%8B%A2&all=true'
+//'http://www.geologycloud.tw/data/zh-tw/liquefaction?area=%E8%87%BA%E5%8C%97&classify=%E9%AB%98%E6%BD%9B%E5%8B%A2&all=true'
 var url_Low = L.geoJSON(loadJson('data/liquefaction_low.json'), {
     style: {
         weight: 0,
